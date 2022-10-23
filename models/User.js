@@ -66,12 +66,12 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
   },
-  password: {
+ /* password: {
     trim: true,
     minlength: 3,
     type: String,
     required: true,
-  },
+  },*/
   date: {
     type: Date,
     default: Date.now,

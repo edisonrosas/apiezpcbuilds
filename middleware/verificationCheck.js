@@ -3,6 +3,8 @@ const User = mongoose.model("User");
 const bcrypt = require("bcryptjs");
 
 exports.verificationCheck = (req, res, next) => {
+  var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+  console.log(ip);
   User.aggregate([
     {
       $match: {
@@ -20,22 +22,22 @@ exports.verificationCheck = (req, res, next) => {
       if (users.length < 1) {
         return res.status(400).json({ message: "Usuario no encontrado" });
       } else {
-        bcrypt.compare(req.body.password, users[0].password, (err, result) => {
-          if (err) {
+        //bcrypt.compare(req.body.password, users[0].password, (err, result) => {
+         /* if (err) {
             return res.status(400).json({ message: "Ha ocurrido un error inesperado" });
-          }
-          if (result) {
+          }*/
+          //if (result) {
             if (!users[0].activated) {
               return res.status(400).json({ message: "La cuenta no ha sido activada." });
             }
             return next();
-          }
-          return res.status(400).json({ message: "Contraseña incorrecta" });
-        });
+          //}
+         // return res.status(400).json({ message: "Contraseña incorrecta" });
+        //});
       }
     })
-    .catch((err) => {
+    /*.catch((err) => {
       console.log(err);
       return res.status(500).json({ message: err });
-    });
+    });*/
 };

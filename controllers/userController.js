@@ -266,26 +266,24 @@ exports.addUser = (req, res) => {
 
   }catch (error){
     jsonuser = req.body
-
-
   }
   
   User.findOne({
     $or: [{ email: jsonuser.email }, { username: jsonuser.username }],
   }).then((user) => {
     if (!user) {
-      bcrypt.hash(jsonuser.password, 10, (err, hash) => {
-        if (err) {
+     // bcrypt.hash(jsonuser.password, 10, (err, hash) => {
+       /* if (err) {
          // console.log(jsonuser)
           console.log(err)
           return res.status(500).json({ error: err });
-        } else {
+        } else {*/
           const user = new User({
             email: jsonuser.email,
             firstName: jsonuser.firstName,
             lastName: jsonuser.lastName,
             username: jsonuser.username,
-            password: hash,
+  //         password: hash,
             type: jsonuser.type,
           });
 
@@ -318,8 +316,9 @@ exports.addUser = (req, res) => {
 
               return res.status(500).json({ message: err.message });
             });
-        }
-      });
+      //  }
+      //}
+      //);
     } else {
       if (user.username === jsonuser.username) {
         console.log("user existe  ")
@@ -365,6 +364,7 @@ exports.resetPassword = (req, res) => {
   });
 };
 
+
 exports.sendVerificationEmail = (req, res) => {
   User.findOne({ email: req.body.email, activated: false })
     .select("email username")
@@ -376,6 +376,7 @@ exports.sendVerificationEmail = (req, res) => {
       return res.status(400).json({ message: "Ha ocurrido un problema." });
     });
 };
+
 
 exports.sendforgotPasswordEmail = (req, res) => {
   //console.log("rbforgot",req.body);
@@ -390,6 +391,7 @@ exports.sendforgotPasswordEmail = (req, res) => {
       return res.status(400).json({ message: "Algo ha salido bien." });
     });
 };
+
 
 exports.loginUser = (req, res, next) => {
   try{
@@ -409,7 +411,7 @@ exports.loginUser = (req, res, next) => {
         _id: 1,
         username: 1,
         email: 1,
-        password: 1,
+       // password: 1,
       },
     },
   ])
@@ -419,23 +421,23 @@ exports.loginUser = (req, res, next) => {
           message: "Credenciales incorrectas",
         });
       } else {
-        bcrypt.compare(jsonuser.password, users[0].password, (err, result) => {
-          if (err) {
+      //  bcrypt.compare(jsonuser.password, users[0].password, (err, result) => {
+         /* if (err) {
             return res.status(400).json({
               message: "Credenciales incorrectas",
             });
-          }
-          if (result) {
+          }*/
+       //   if (result) {
             const token = jwt.sign(
               {
                 email: users[0].email,
                 userId: users[0]._id,
                 username: users[0].username,
               },
-              process.env.JWT_KEY,
-              {
-                expiresIn: "30m",
-              }
+              process.env.JWT_KEY//,
+             /* {
+                expiresIn: "999m",
+              }*/
             );
 
             const user = {
@@ -448,9 +450,9 @@ exports.loginUser = (req, res, next) => {
             //res.send();
             //console.log("userdata02",jsonuser)
             return ;
-          }
-          return res.status(400).json({ message: "Credenciales incorrectas" });
-        });
+        /*  }
+          return res.status(400).json({ message: "Credenciales incorrectas" });*/
+      //  });
       }
     })
     .catch((err) => {
@@ -537,10 +539,10 @@ exports.updateUser = (req, res) => {
                 userId: user._id,
                 username: user.username,
               },
-              process.env.JWT_KEY,
+              process.env.JWT_KEY/*,
               {
                 expiresIn: "30m",
-              }
+              }*/
             );
 
             return res.status(200).json({ user, token: "Bearer " + token });

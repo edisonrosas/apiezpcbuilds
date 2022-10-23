@@ -11,7 +11,7 @@ exports.addUser = (req, res, next) => {
           /^([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)$/
         )
       )
-      .required(),
+      ,
     lastName: Joi.string()
       .min(2)
       .max(30)
@@ -20,7 +20,7 @@ exports.addUser = (req, res, next) => {
           /^([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)$/
         )
       )
-      .required(),
+     ,
     username: Joi.string()
       .min(3)
       .max(30)
@@ -58,8 +58,7 @@ exports.addUser = (req, res, next) => {
         "any.valid": 'El valor no es valido',
         "any.required": `"Tipo" es necesario`
       }),
-    password: Joi.string().min(3).max(30).required(),
-    retypepassword: Joi.required().valid(Joi.ref("password")),
+
   });
 
   /*const options = {
@@ -97,7 +96,7 @@ exports.addUser = (req, res, next) => {
   next();
 };
 
-
+//Yo no es necesario si usamos firebase
 exports.resetPassword = (req, res, next) => {
   const schema = Joi.object({
     password: Joi.string().min(3).max(30).required(),
@@ -150,7 +149,7 @@ exports.sendVerificationEmail = (req, res, next) => {
 exports.loginUser = (req, res, next) => {
   const schema = Joi.object({
     email: Joi.string().required(),
-    password: Joi.string().required(),
+//    password: Joi.string().required(),
   });
   try{
   

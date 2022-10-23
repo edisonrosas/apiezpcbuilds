@@ -27,7 +27,7 @@ const cors = require('cors')({
 
 
 //Conexión a mongo
-mongoose.connect("mongodb+srv://redsocial:redsocial123456@redsocialviajes.wgxmo.mongodb.net/?retryWrites=true&w=majority", {
+mongoose.connect(process.env.DATABASE, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -48,7 +48,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+app.set('trust proxy', true);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
